@@ -1,3 +1,69 @@
 <resources>
     <string name="app_name">DMC</string>
+    <string name="title_activity_home">Home</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    // main home Spinner data Acc and acl start
+    <string-array name="company_home">
+        <item>Select Company</item>
+        <item>ACC</item>
+        <item>ACL</item>
+    </string-array>
+    <string-array name="ACC">
+        <item>Select Zone</item>
+        <item>ACC_EAST</item>
+        <item>ACC_WEST</item>
+        <item>ACC_NORHT</item>
+        <item>ACC_SOUTH</item>
+    </string-array>
+
+    <string-array name="ACL">
+        <item>Select Zone</item>
+        <item>ACL_EAST</item>
+        <item>ACL_WEST</item>
+        <item>ACL_NORHT</item>
+        <item>ACL_SOUTH</item>
+    </string-array>
+
+    <string-array name="ACC_EAST">
+        <item>JAMUL</item>
+        <item>PATHARIA MINES</item>
+    </string-array>
+
+    <string-array name="ACC_WEST">
+        <item>BCCI</item>
+        <item>CHANDA</item>
+    </string-array>
+
+    <string-array name="ACC_NORHT">
+        <item>GAGAL</item>
+    </string-array>
+    <string-array name="ACC_SOUTH">
+        <item>MADUKARRAI</item>
+    </string-array>
+
+    <string-array name="ACL_EAST">
+        <item>FARAKKA</item>
+        <item>SANKRAIL</item>
+    </string-array>
+    <string-array name="ACL_WEST">
+        <item>PANVEL</item>
+        <item>AMBUJANAGAR</item>
+        <item>MBUJANGAR_MINES</item>
+    </string-array>
+    <string-array name="ACL_NORHT">
+        <item>ROPAR_CLINKER_YARD</item>
+        <item>ROPAR_CEMENT_YARD</item>
+        <item>DARLAGHAT</item>
+    </string-array>
+    <string-array name="ACL_SOUTH">
+        <item>MANGALORE</item>
+    </string-array>
+
+
 </resources>
