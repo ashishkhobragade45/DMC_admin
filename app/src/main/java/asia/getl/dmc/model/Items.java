@@ -1,9 +1,13 @@
 package asia.getl.dmc.model;
 
-public class Items {
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+public class Items  {
 
     private String title;
    private String redvalue,yvalue,gvalue,gpsvalue;
+
 
 
     public Items(String title, String redvalue, String yvalue, String gvalue, String gpsvalue) {
@@ -13,6 +17,7 @@ public class Items {
         this.gvalue = gvalue;
         this.gpsvalue = gpsvalue;
     }
+
 
     public String getYvalue() {
         return yvalue;

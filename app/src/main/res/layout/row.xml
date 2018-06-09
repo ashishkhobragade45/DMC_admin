@@ -1,70 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="2sp"
     >
 
-    <TextView
-        android:id="@+id/label"
+    <android.support.v7.widget.CardView
+        style="@style/MyCardViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:paddingLeft="5dp"
-        android:text="text"
-        android:textColor="@android:color/black">
-    </TextView>
+        >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="110dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/label"
-            android:paddingLeft="5dp"
-            android:text="text"
-            android:textColor="@android:color/holo_blue_light"
-            android:textSize="12sp"></TextView>
+            <TextView
+                android:id="@+id/label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:text="text"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/value1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/label"
-            android:paddingLeft="5dp"
-            android:text="text"
-            android:textColor="@android:color/holo_blue_light"
-            android:textSize="12sp"></TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/value2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/label"
-            android:paddingLeft="5dp"
-            android:text="text"
-            android:textColor="@android:color/holo_blue_light"
-            android:textSize="12sp"></TextView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="right"
+                    android:text="R : "
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/value3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
+                <TextView
+                    android:id="@+id/value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="left"
+                    android:text="30000"
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/black" />
 
-            android:paddingLeft="5dp"
-            android:text="text"
-            android:textColor="@android:color/holo_blue_light"
-            android:textSize="12sp"></TextView>
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:autoSizeTextType="uniform"
+
+                    android:text="Y : "
+                    android:textAlignment="viewStart"
+                    android:textColor="#cccc00"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/value1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:text="30000"
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:autoSizeTextType="uniform"
+
+                    android:text="G : "
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/value2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:text="30000"
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:text="No-Ivms : "
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/value3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoSizeTextType="uniform"
+                    android:text="30000"
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/black" />
 
 
+            </LinearLayout>
 
-</RelativeLayout>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</android.support.constraint.ConstraintLayout>

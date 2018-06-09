@@ -1,11 +1,14 @@
 package asia.getl.dmc;
 
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 
@@ -14,23 +17,34 @@ import android.widget.Toast;
 
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.GraphViewXML;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import asia.getl.dmc.model.Items;
 import asia.getl.dmc.model.MyAdapter;
 import asia.getl.dmc.model.MyValueFormatter;
+import com.github.mikephil.charting.data.Entry;
 
 
 public class Report extends AppCompatActivity {
@@ -50,8 +64,9 @@ public class Report extends AppCompatActivity {
     String gpscount;
 
     MyAdapter adapter;
+    private RecyclerView recyclerView;
 
-    ArrayList<BarEntry> yValue;
+    private List<Items> albumList;
 
 
     @Override
@@ -72,24 +87,56 @@ public class Report extends AppCompatActivity {
 
         findViewById();
 
-        //setData();
-
 
 
 
         // 1. pass context and data to the custom adapter
-        adapter = new MyAdapter(this, generateData());
+       // adapter = new MyAdapter(this, generateData());
 
         // 2. Get ListView from activity_main.xml
-        ListView listView = (ListView) findViewById(R.id.listview);
+       // ListView listView = (ListView) findViewById(R.id.listview);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        albumList = new ArrayList<>();
+
+        //test
+        Items items = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items1 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items2 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items3 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items4 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items5 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items6 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items7 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items8 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items9 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items10 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+        Items items11 = new Items("31","30000","30000","30000","30000");
+        albumList.add(items);
+
+        adapter = new MyAdapter(albumList);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 5);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(adapter);
 
         // 3. setListAdapter
-        listView.setAdapter(adapter);
+        //listView.setAdapter(adapter);//very important
 
 
         // reportmethod();
 
-
+       setData();
         //report = database.getReference(edt_date.getText().toString().trim()+"/"+company+"/"+zone+"/"+dmc+"/");
 
     /*    btn_report.setOnClickListener(new View.OnClickListener() {
@@ -108,12 +155,58 @@ public class Report extends AppCompatActivity {
 
     }
 
-    private ArrayList<Items> generateData(){
+    private void setData() {
+        report = database.getReference("daily_record_db"+"/"+"Jun2018"+"/"+company+"/"+zone+"/"+dmc);
+
+        report.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                day = dataSnapshot.getKey();
+                redcount = String.valueOf(dataSnapshot.child("Red").getChildrenCount());
+                yellowcount = String.valueOf(dataSnapshot.child("Yellow").getChildrenCount());
+                greencount = String.valueOf(dataSnapshot.child("Green").getChildrenCount());
+                gpscount = String.valueOf(dataSnapshot.child("NON-IVMS Fitted").getChildrenCount());
+
+               Items items = new Items(day,redcount,yellowcount,greencount,gpscount);
+                albumList.add(items);
+
+               // items.add(new Items(day,redcount,yellowcount,greencount,gpscount));
+
+
+                adapter.notifyDataSetChanged();
+            }
+
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+
+  /*  private ArrayList<Items> generateData(){
         report = database.getReference("daily_record_db"+"/"+"Jun2018"+"/"+company+"/"+zone+"/"+dmc);
         final ArrayList<Items> items = new ArrayList<Items>();
-        /*items.add(new Items("Item 1","1"));
-        items.add(new Items("Item 2","2"));
-        items.add(new Items("Item 3","3"));*/
+
 
         report.addChildEventListener(new ChildEventListener() {
             @Override
@@ -125,6 +218,7 @@ public class Report extends AppCompatActivity {
                 gpscount = String.valueOf(dataSnapshot.child("NON-IVMS Fitted").getChildrenCount());
 
                 items.add(new Items(day,redcount,yellowcount,greencount,gpscount));
+
 
                 adapter.notifyDataSetChanged();
             }
@@ -150,9 +244,11 @@ public class Report extends AppCompatActivity {
             }
         });
 
+
+
         return items;
     }
-
+*/
 
 
 
@@ -264,9 +360,9 @@ public class Report extends AppCompatActivity {
     }
 
     private void findViewById() {
-       /* edt_date = (MaterialEditText)findViewById(R.id.edt_date);
+        edt_date = (MaterialEditText)findViewById(R.id.edt_date);
         btn_report = (Button)findViewById(R.id.btn_report);
-*/
+
 
 
     }
