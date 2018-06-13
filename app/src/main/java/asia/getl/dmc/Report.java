@@ -44,8 +44,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import asia.getl.dmc.model.Driver_history;
@@ -71,8 +74,8 @@ public class Report extends AppCompatActivity {
     String greencount;
     String gpscount;
 
-    String str_red,red1,red2;
-
+    boolean boolr=true;
+    String rootdate;
     MyAdapter adapter;
     private RecyclerView recyclerView;
     String history_cdlno,history_cname,history_cplant, history_status,
@@ -81,6 +84,7 @@ public class Report extends AppCompatActivity {
     FileWriter fileWriter;
     Driver_history driver_history;
     BufferedWriter fos = null;
+    BufferedWriter fos1 = null;
 
 
     ArrayList<Driver_history> listfile;
@@ -112,13 +116,6 @@ public class Report extends AppCompatActivity {
        // ListView listView = (ListView) findViewById(R.id.listview);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        albumList = new ArrayList<>();
-
-
-        adapter = new MyAdapter(albumList);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 5);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(adapter);
 
         // 3. setListAdapter
         //listView.setAdapter(adapter);//very important
@@ -136,6 +133,7 @@ public class Report extends AppCompatActivity {
                // dateenter = edt_date.getText().toString();
 
                 setData();
+
 
 
 
@@ -158,24 +156,33 @@ public class Report extends AppCompatActivity {
 
 
     private void exportfile() {
-
-
+        Calendar calendar = Calendar.getInstance();
+        String myFormat = "dd-MM-yyyy_HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        rootdate = sdf.format(calendar.getTime());
+        
 
         String dateyear = edt_date.getText().toString();
         final String path = "daily_record_db"+"/"+edt_date.getText().toString()+"/"+company+"/"+zone+"/"+dmc;
         //report1 = database.getReference("daily_record_db"+"/"+edt_date.getText().toString()+"/"+company+"/"+zone+"/"+dmc);
         try {
-            fos = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+"TestFinal5.txt",true));
+            fos1 = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+"Report"+rootdate+".txt",true));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
             try {
-                fos.write("DL number"+";"+"Driver Name"+";"+"Plant"+";"+"Status"+";"+"Topic"+";"+"TBT topic"+";"+"DDI topic"
+                fos1.write("DL number"+";"+"Driver Name"+";"+"Plant"+";"+"Status"+";"+"Topic"+";"+"TBT topic"+";"+"DDI topic"
                         +";"+"Trainer Name"+"\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        try {
+            fos1.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 
         for( i =0;i<30;i++)
@@ -209,7 +216,7 @@ public class Report extends AppCompatActivity {
                    if(!test.isEmpty()) {
                       //listfile.add();
                        try {
-                           fos = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+"TestFinal5.txt",true));
+                           fos = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+"Report"+rootdate+".txt",true));
                        } catch (IOException e) {
                            e.printStackTrace();
                        }
@@ -253,6 +260,218 @@ public class Report extends AppCompatActivity {
                 }
             });
 
+            report1.child("Yellow").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                   /* String test = dataSnapshot.getKey();
+                    Log.d("test",test);
+                    Driver_history driver_history = dataSnapshot.getValue(Driver_history.class);
+                    String dlno = driver_history.getHistory_cplant();
+                    Log.d("DL NO",dlno);*/
+                    Driver_history driver_history = dataSnapshot.getValue(Driver_history.class);
+                    String rdlno,name,plant,status,topic,tbt,ddi,trainer;
+                    rdlno = driver_history.getHistory_cdlno();
+                    name = driver_history.getHistory_cname();
+                    plant = driver_history.getHistory_cplant();
+                    status = driver_history.getHistory_status();
+                    topic = driver_history.getHistory_sharedtopics();
+                    tbt = driver_history.getHistory_tbt();
+                    ddi = driver_history.getHistory_ddi();
+                    trainer = driver_history.getHistory_ctrainername();
+
+                    String test =rdlno+";"+name+";"+plant+";"+status+";"+topic+";"+tbt+";"+ddi+";"+trainer+"\n";
+                    Log.d("Test123",test);
+
+
+                    if(!test.isEmpty()) {
+                        //listfile.add();
+                        try {
+                            fos = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+"Report"+rootdate+".txt",true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            fos.write(test);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                        // listfile.add(rdlno+","+name+","+plant+","+status+","+topic+","+tbt+","+ddi+","+trainer+"\n");
+                    }
+                }
+
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            report1.child("Green").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                   /* String test = dataSnapshot.getKey();
+                    Log.d("test",test);
+                    Driver_history driver_history = dataSnapshot.getValue(Driver_history.class);
+                    String dlno = driver_history.getHistory_cplant();
+                    Log.d("DL NO",dlno);*/
+                    Driver_history driver_history = dataSnapshot.getValue(Driver_history.class);
+                    String rdlno,name,plant,status,topic,tbt,ddi,trainer;
+                    rdlno = driver_history.getHistory_cdlno();
+                    name = driver_history.getHistory_cname();
+                    plant = driver_history.getHistory_cplant();
+                    status = driver_history.getHistory_status();
+                    topic = driver_history.getHistory_sharedtopics();
+                    tbt = driver_history.getHistory_tbt();
+                    ddi = driver_history.getHistory_ddi();
+                    trainer = driver_history.getHistory_ctrainername();
+
+                    String test =rdlno+";"+name+";"+plant+";"+status+";"+topic+";"+tbt+";"+ddi+";"+trainer+"\n";
+                    Log.d("Test123",test);
+
+
+                    if(!test.isEmpty()) {
+                        //listfile.add();
+                        try {
+                            fos = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+"Report"+rootdate+".txt",true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            fos.write(test);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                        // listfile.add(rdlno+","+name+","+plant+","+status+","+topic+","+tbt+","+ddi+","+trainer+"\n");
+                    }
+                }
+
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            report1.child("NON-IVMS Fitted").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                   /* String test = dataSnapshot.getKey();
+                    Log.d("test",test);
+                    Driver_history driver_history = dataSnapshot.getValue(Driver_history.class);
+                    String dlno = driver_history.getHistory_cplant();
+                    Log.d("DL NO",dlno);*/
+                    Driver_history driver_history = dataSnapshot.getValue(Driver_history.class);
+                    String rdlno,name,plant,status,topic,tbt,ddi,trainer;
+                    rdlno = driver_history.getHistory_cdlno();
+                    name = driver_history.getHistory_cname();
+                    plant = driver_history.getHistory_cplant();
+                    status = driver_history.getHistory_status();
+                    topic = driver_history.getHistory_sharedtopics();
+                    tbt = driver_history.getHistory_tbt();
+                    ddi = driver_history.getHistory_ddi();
+                    trainer = driver_history.getHistory_ctrainername();
+
+                    String test =rdlno+";"+name+";"+plant+";"+status+";"+topic+";"+tbt+";"+ddi+";"+trainer+"\n";
+                    Log.d("Test123",test);
+
+
+                    if(!test.isEmpty()) {
+                        //listfile.add();
+                        try {
+                            fos = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+"Report"+rootdate+".txt",true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            fos.write(test);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                        // listfile.add(rdlno+","+name+","+plant+","+status+","+topic+","+tbt+","+ddi+","+trainer+"\n");
+                    }
+                }
+
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+
 
 
 
@@ -280,7 +499,6 @@ public class Report extends AppCompatActivity {
                 }
 */
 
-        }
 
 
         }
@@ -288,21 +506,56 @@ public class Report extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
+        } // export file logic
 
 
 
     private void setData() {
+
+        albumList = new ArrayList<>();
+
+
+        adapter = new MyAdapter(albumList);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 5);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(adapter);
+
         report = database.getReference("daily_record_db"+"/"+edt_date.getText().toString()+"/"+company+"/"+zone+"/"+dmc);
 
+        albumList.clear();
+        report.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snap : dataSnapshot.getChildren())
+                {
+                    day = snap.getKey();
+                    Log.d("Demo",day);
+                    redcount = String.valueOf(snap.child("Red").getChildrenCount());
+                    yellowcount = String.valueOf(snap.child("Yellow").getChildrenCount());
+                    greencount = String.valueOf(snap.child("Green").getChildrenCount());
+                    gpscount = String.valueOf(snap.child("NON-IVMS Fitted").getChildrenCount());
+
+                    Items items = new Items(day,redcount,yellowcount,greencount,gpscount);
+                    albumList.add(items);
+
+                    // items.add(new Items(day,redcount,yellowcount,greencount,gpscount));
 
 
-        report.addChildEventListener(new ChildEventListener() {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+        /*report.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -319,7 +572,7 @@ public class Report extends AppCompatActivity {
                // items.add(new Items(day,redcount,yellowcount,greencount,gpscount));
 
 
-                adapter.notifyDataSetChanged();
+               adapter.notifyDataSetChanged();
             }
 
 
@@ -342,7 +595,7 @@ public class Report extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
 
 

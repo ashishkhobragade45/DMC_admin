@@ -25,7 +25,8 @@
             android:name=".Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppFullScreenTheme" />
-        <activity android:name=".Report"></activity>
+        <activity android:name=".Report" />
+        <activity android:name=".Reportcompany"></activity>
     </application>
 
 </manifest>

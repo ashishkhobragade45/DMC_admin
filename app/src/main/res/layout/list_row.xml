@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="2sp"
@@ -10,7 +10,7 @@
 
     <android.support.v7.widget.CardView
         style="@style/MyCardViewStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/label"
+                android:id="@+id/labelr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -42,13 +42,13 @@
                     android:layout_weight="2"
                     android:autoSizeTextType="uniform"
 
-                    android:text="R : "
+                    android:text="Red  : "
 
                     android:textColor="@android:color/holo_red_dark"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/value"
+                    android:id="@+id/valuer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -71,13 +71,13 @@
                     android:layout_weight="2"
                     android:autoSizeTextType="uniform"
 
-                    android:text="Y : "
+                    android:text="Yellow : "
                     android:textAlignment="viewStart"
                     android:textColor="#cccc00"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/value1"
+                    android:id="@+id/value1r"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -99,13 +99,13 @@
                     android:layout_weight="2"
                     android:autoSizeTextType="uniform"
 
-                    android:text="G : "
+                    android:text="Green : "
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/holo_green_dark"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/value2"
+                    android:id="@+id/value2r"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -119,29 +119,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
 
-                    android:text="No-Ivms : "
+                    android:text="NON-IVMS  : "
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
                     android:textColor="@android:color/holo_blue_light"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:paddingEnd="2sp"
-                    android:id="@+id/value3"
+                    android:id="@+id/value3r"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:autoSizeTextType="uniform"
+                    android:paddingEnd="2sp"
                     android:text="30000"
-                    android:textAlignment="viewEnd"
+                    android:textAlignment="viewStart"
                     android:textColor="@android:color/black" />
 
 
